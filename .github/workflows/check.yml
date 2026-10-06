@@ -1,0 +1,29 @@
+name: Build and offline checks
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  mac:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build macOS 13 universal application
+        run: ./build.sh
+      - name: Run checks without model accounts
+        run: |
+          ./scripts/test.sh
+          python3 scripts/test-api.py
+          python3 scripts/test-smoke.py
+          python3 scripts/test-smoke-negative.py
+      - name: Validate architectures and bundle
+        run: |
+          lipo -archs 'dist/小龙娘桌宠.app/Contents/MacOS/DragonPet'
+          'dist/小龙娘桌宠.app/Contents/MacOS/DragonPet' --check-fixtures Tests/Fixtures/quotas.json
+          plutil -lint 'dist/小龙娘桌宠.app/Contents/Info.plist'
+          codesign --verify --deep --strict 'dist/小龙娘桌宠.app'
+      - name: Archive application preserving executable permissions
+        run: ditto -c -k --sequesterRsrc --keepParent 'dist/小龙娘桌宠.app' dist/DragonPet-macos.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dragonpet-macos-universal
+          path: dist/DragonPet-macos.zip
