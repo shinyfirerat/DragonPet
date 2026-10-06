@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-import http.server,json,sys
+import http.server,json,sys,os,time
+from pathlib import Path
+time.sleep(float(os.environ.get("DRAGONPET_MOCK_START_DELAY","0")))
 class Handler(http.server.BaseHTTPRequestHandler):
     count=0
     def log_message(self,*args):pass
@@ -17,5 +19,5 @@ class Handler(http.server.BaseHTTPRequestHandler):
         self.send_response(status);self.send_header('Content-Type','application/json');self.end_headers()
         self.wfile.write(json.dumps({'choices':[{'message':{'content':'这是本机模拟回复。'}}]},ensure_ascii=False).encode())
 server=http.server.HTTPServer(('127.0.0.1',0),Handler)
-open(sys.argv[1],'w').write(str(server.server_port))
+port=Path(sys.argv[1]);temporary=port.with_suffix('.ready');temporary.write_text(str(server.server_port));temporary.replace(port)
 server.serve_forever()
