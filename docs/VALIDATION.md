@@ -64,4 +64,4 @@
 ## GitHub干净Runner验证
 2026-10-07，代码提交fc7db04在GitHub托管macOS Runner完整通过。[运行记录](https://github.com/shinyfirerat/DragonPet/actions/runs/37571421138)：universal编译、全离线回归、HTTP模拟、隔离fresh/loaded及两类mutation、lipo/plist/codesign、CI artifact打包均成功。此前两次失败发生在mock端口发布等待，已将本机HTTP mock绑定改为不依赖反向DNS并增加就绪诊断。
 
-仓库当前由维护者设为private，运行记录需相应访问权限。该结果证明干净Runner可构建并完成这些检查，不证明Intel/macOS13真机、生产模型API、登录项或公证。后续仅文档更新不重复运行模型或更改程序行为。
+仓库已于2026-10-07按维护者要求恢复公开，运行记录可公开访问。该结果证明干净Runner可构建并完成这些检查，不证明Intel/macOS13真机、生产模型API、登录项或公证。后续仅文档更新不重复运行模型或更改程序行为。
