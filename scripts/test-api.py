@@ -15,7 +15,11 @@ with tempfile.TemporaryDirectory(prefix='dragonpet-api-') as directory:
                 candidate=port.read_text().strip()
                 if candidate.isdigit() and 0<int(candidate)<65536:value=candidate;break
             time.sleep(.05)
-        if value is None:raise TimeoutError('Mock server did not publish its port within 15 seconds')
+        if value is None:
+            server.terminate()
+            try:_,diagnostic=server.communicate(timeout=5)
+            except subprocess.TimeoutExpired:server.kill();_,diagnostic=server.communicate(timeout=5)
+            raise TimeoutError('Mock server did not publish its port within 15 seconds: '+diagnostic)
         subprocess.run([str(exe),value],cwd=root,check=True,timeout=30,env=dict(os.environ,DRAGONPET_TEST_ROOT=str(work/'runtime')))
     finally:
         if server.poll() is None:server.terminate()

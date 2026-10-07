@@ -101,7 +101,9 @@ API 地址可填完整 `/chat/completions` 地址，或包含版本路径的基�
 
 ## 许可与致谢
 
-代码采用 [MIT License](LICENSE)。默认皮肤来源及外部依赖说明见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。额度功能借助 CodexBar；按压与气泡交互受到 [DeepSeek 鲸鱼桌宠](https://github.com/MeteorNOX/DeepSeek-Balance-Whale-Widget) 启发。感谢原作者分享实现。
+代码采用 [MIT License](LICENSE)。默认皮肤来源及外部依赖说明见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。额度查询由 [CodexBar](https://github.com/steipete/CodexBar) 提供；桌宠构想、按压压扁/回弹、气泡及额度挂件交互受到 [DeepSeek-Balance-Whale-Widget](https://github.com/MeteorNOX/DeepSeek-Balance-Whale-Widget) 启发。半身Q版与呆萌表情的方向也参考了用户提供的 DS 桌宠等示例。感谢原作者公开分享。
+
+本项目为独立 Swift 实现，未包含上游插件源码、立绘文件、音效或固定台词库；默认龙娘文件由 AI 图像工具生成，音效自行合成。独立实现、AI生成和致谢不等于获得第三方素材或角色的授权；代码、交互理念与具体美术表达分别说明，详见来源文档。
 
 实现参考：[Codex 非交互模式](https://learn.chatgpt.com/docs/non-interactive-mode)、[Chat Completions 接口](https://developers.openai.com/api/reference/resources/chat)。
 
