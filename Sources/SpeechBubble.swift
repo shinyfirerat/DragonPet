@@ -30,23 +30,25 @@ final class SpeechBubble {
     let panel=PetPanel(contentRect:NSRect(x:0,y:0,width:80,height:53),styleMask:[.borderless,.nonactivatingPanel],backing:.buffered,defer:false)
     private let view=BubbleView()
     private var timer:Timer?
+    var refreshInterval:TimeInterval? {timer?.timeInterval}
     private var delayed:DispatchWorkItem?
     private var hideTimer:Timer?
     private var revealTimer:Timer?
     private var started=Date()
     private var waiting=false
+    var presentationEnabled=true
     var duration:TimeInterval=8
     var anchor:(()->NSRect)?
     init(){panel.contentView=view;panel.isOpaque=false;panel.backgroundColor = .clear;panel.hasShadow=true;panel.level = .floating;panel.isReleasedWhenClosed=false;panel.hidesOnDeactivate=false;panel.ignoresMouseEvents=true;panel.collectionBehavior=[.canJoinAllSpaces,.fullScreenAuxiliary]}
     func begin(){
         dismiss();waiting=true;started=Date()
-        let work=DispatchWorkItem{[weak self] in guard let self,self.waiting else{return};self.view.phrase=nil;self.panel.setContentSize(NSSize(width:80,height:53));self.follow();self.panel.alphaValue=0;self.panel.orderFrontRegardless();NSAnimationContext.runAnimationGroup{$0.duration=0.18;self.panel.animator().alphaValue=1}}
+        let work=DispatchWorkItem{[weak self] in guard let self,self.waiting else{return};self.view.phrase=nil;self.panel.setContentSize(NSSize(width:80,height:53));self.follow();self.panel.alphaValue=0;if self.presentationEnabled{self.panel.orderFrontRegardless()};NSAnimationContext.runAnimationGroup{$0.duration=0.18;self.panel.animator().alphaValue=1}}
         delayed=work;DispatchQueue.main.asyncAfter(deadline:.now()+0.55,execute:work)
         timer=Timer.scheduledTimer(withTimeInterval:1/30,repeats:true){[weak self] _ in guard let self else{return};self.view.phase=Date().timeIntervalSince(self.started);self.view.needsDisplay=true;self.follow()}
         RunLoop.main.add(timer!,forMode:.eventTracking)
     }
     func say(_ phrase:String){
-        delayed?.cancel();delayed=nil;waiting=false;hideTimer?.invalidate()
+        delayed?.cancel();delayed=nil;waiting=false;hideTimer?.invalidate();timer?.invalidate();timer=nil
         view.phrase=phrase;view.setAccessibilityElement(true);view.setAccessibilityRole(.staticText);view.setAccessibilityLabel(phrase)
         let width:CGFloat=240
         let measured=(phrase as NSString).boundingRect(with:NSSize(width:width-32,height:200),options:[.usesLineFragmentOrigin],attributes:[.font:NSFont.systemFont(ofSize:13,weight:.medium)])
@@ -56,8 +58,9 @@ final class SpeechBubble {
         view.textOpacity=0;view.alphaValue=1
         if wasVisible {
             NSAnimationContext.runAnimationGroup{$0.duration=0.18;panel.animator().setFrame(frame,display:true)};fadeText()
-        }else{panel.setFrame(frame,display:true);panel.alphaValue=1;panel.orderFrontRegardless();fadeText()}
-        if timer==nil{timer=Timer.scheduledTimer(withTimeInterval:0.1,repeats:true){[weak self] _ in self?.follow()}}
+        }else{panel.setFrame(frame,display:true);panel.alphaValue=1;if presentationEnabled{panel.orderFrontRegardless()};fadeText()}
+        timer=Timer.scheduledTimer(withTimeInterval:0.1,repeats:true){[weak self] _ in self?.follow()}
+        RunLoop.main.add(timer!,forMode:.eventTracking)
         hideTimer=Timer.scheduledTimer(withTimeInterval:duration,repeats:false){[weak self] _ in self?.dismiss()}
     }
     private func fadeText(){

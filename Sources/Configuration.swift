@@ -133,6 +133,11 @@ enum APIKeyStore {
         let canonical=try APIClient.endpoint(endpoint).absoluteString
         return SHA256.hash(data:Data(canonical.utf8)).map{String(format:"%02x",$0)}.joined()
     }
+    static func deletionEndpoint(_ saved:String)throws->String {
+        guard !saved.trimmingCharacters(in:.whitespacesAndNewlines).isEmpty else{throw ConfigError.message("尚未保存 API 接口，没有可删除的 Key。")}
+        guard (try? APIClient.endpoint(saved)) != nil else{throw ConfigError.message("已保存的接口地址无效，请先在设置中修正地址。")} 
+        return saved
+    }
     static func set(_ key:String,endpoint:String)throws {
         let account=try account(endpoint)
         let query:[String:Any]=[kSecClass as String:kSecClassGenericPassword,kSecAttrService as String:service,kSecAttrAccount as String:account]

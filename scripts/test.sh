@@ -13,7 +13,7 @@ python3 -c 'from pathlib import Path; Path("Tests/CompanionBurst/count.tmp").unl
 swiftc "${COMMON[@]}" Tests/CompanionBurst/main.swift -framework AppKit -framework Security -o "$QA_DIR/burst"
 "$QA_DIR/burst" "$PWD/Tests/CompanionBurst/fake-server.py"
 python3 -c 'from pathlib import Path; Path("Tests/CompanionBurst/count.tmp").unlink(missing_ok=True)'
-swiftc Sources/Skin.swift Sources/PetView.swift "${COMMON[@]}" Tests/main.swift -framework AppKit -framework Security -o "$QA_DIR/interaction"
+swiftc Sources/PetGeometry.swift Sources/Skin.swift Sources/PetView.swift "${COMMON[@]}" Tests/main.swift -framework AppKit -framework Security -o "$QA_DIR/interaction"
 "$QA_DIR/interaction" "$PWD/Resources/Skins/white-dragon"
 
 swiftc "${COMMON[@]}" Tests/TokenHistory/main.swift -framework AppKit -framework Security -o "$QA_DIR/history"
@@ -21,3 +21,6 @@ swiftc "${COMMON[@]}" Tests/TokenHistory/main.swift -framework AppKit -framework
 
 swiftc "${COMMON[@]}" Tests/CompanionUsage/main.swift -framework AppKit -framework Security -o "$QA_DIR/usage"
 "$QA_DIR/usage" "$PWD/Tests/CompanionUsage/fake-cli.py"
+
+swiftc Sources/Skin.swift Sources/PetView.swift Sources/SpeechBubble.swift "${COMMON[@]}" Tests/SpeechBubble/main.swift -framework AppKit -framework Security -o "$QA_DIR/bubble"
+"$QA_DIR/bubble"

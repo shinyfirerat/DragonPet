@@ -43,7 +43,10 @@ enum UsageParser {
         }
     }
     static func date(_ text:String)->String {
-        let iso=ISO8601DateFormatter();guard let d=iso.date(from:text) else { return text }
+        let iso=ISO8601DateFormatter()
+        var parsed=iso.date(from:text)
+        if parsed==nil {iso.formatOptions=[.withInternetDateTime,.withFractionalSeconds];parsed=iso.date(from:text)}
+        guard let d=parsed else{return text}
         let f=DateFormatter();f.dateFormat="MM-dd HH:mm";return f.string(from:d)
     }
 }

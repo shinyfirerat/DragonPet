@@ -1,5 +1,5 @@
 [
-  {"provider":"codex","rateWindowLabels":{"primary":"Synthetic window"},"usage":{"primary":{"usedPercent":25,"windowMinutes":300,"resetsAt":"2026-01-01T00:00:00Z"},"secondary":{"usedPercent":null,"windowMinutes":10080},"updatedAt":"2026-01-01T00:00:00Z"},"credits":{"balanceReadSucceeded":true,"remaining":2}},
+  {"provider":"codex","rateWindowLabels":{"primary":"Synthetic window"},"usage":{"primary":{"usedPercent":25,"windowMinutes":300,"resetsAt":"2026-01-01T00:00:00.930Z"},"secondary":{"usedPercent":null,"windowMinutes":10080},"updatedAt":"2026-01-01T00:00:00Z"},"credits":{"balanceReadSucceeded":true,"remaining":2}},
   {"provider":"deepseek","usage":{"primary":{"resetDescription":"¥3.50 (synthetic fixture)"},"updatedAt":"2026-01-01T00:00:00Z"}},
   {"provider":"antigravity","usage":{"extraRateWindows":[{"title":"Gemini 5-hour","window":{"usedPercent":10,"windowMinutes":300}},{"title":"Claude synthetic","window":{"usedPercent":50}}],"updatedAt":"2026-01-01T00:00:00Z"}}
 ]

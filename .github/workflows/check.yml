@@ -18,6 +18,7 @@ jobs:
       - name: Validate architectures and bundle
         run: |
           lipo -archs 'dist/小龙娘桌宠.app/Contents/MacOS/DragonPet'
+          lipo 'dist/小龙娘桌宠.app/Contents/MacOS/DragonPet' -verify_arch arm64 x86_64
           'dist/小龙娘桌宠.app/Contents/MacOS/DragonPet' --check-fixtures Tests/Fixtures/quotas.json
           plutil -lint 'dist/小龙娘桌宠.app/Contents/Info.plist'
           codesign --verify --deep --strict 'dist/小龙娘桌宠.app'

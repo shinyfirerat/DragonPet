@@ -111,7 +111,14 @@ let phrase=text ?? error ?? "刚才走神了，再戳一下？";self.pet.setAcce
         refreshTimer=Timer.scheduledTimer(withTimeInterval:config.refreshSeconds,repeats:true){[weak self] _ in self?.service.refresh()}
     }
     @objc func showSettings(){balances.panel.orderOut(nil);settingsWindow.show()}
-    func resize(_ height:Int) {let h=CGFloat(height)+16;panel.setContentSize(NSSize(width:CGFloat(height)*skin.image.size.width/skin.image.size.height*1.3+16,height:h));PetPreferences.shared.set(height,forKey:"petSize");speech.follow()}
+    func resize(_ height:Int) {
+        let size=NSSize(width:CGFloat(height)*skin.image.size.width/skin.image.size.height*1.3+16,height:CGFloat(height)+16)
+        let frame=PetGeometry.resizedFrame(panel.frame,to:size,in:NSScreen.screens.map{$0.visibleFrame})
+        panel.setFrame(frame,display:true)
+        PetPreferences.shared.set(height,forKey:"petSize")
+        if panel.isVisible {PetPreferences.shared.set(frame.minX,forKey:"petX");PetPreferences.shared.set(frame.minY,forKey:"petY")}
+        speech.follow()
+    }
     @objc func statusMenu(){status.menu=menu();status.button?.performClick(nil);status.menu=nil}
     @objc func showBalances(){balances.show(near:panel.frame)}
     @objc func resetPosition(){guard let s=NSScreen.main?.visibleFrame else{return};panel.setFrameOrigin(NSPoint(x:s.maxX-panel.frame.width-24,y:s.minY+16))}

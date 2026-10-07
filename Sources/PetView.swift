@@ -72,7 +72,7 @@ final class PetView: NSView {
         window?.setFrameOrigin(NSPoint(x:startOrigin.x+dx,y:startOrigin.y+dy));onMove?()
     }
     override func mouseUp(with event: NSEvent) {
-        animate(0);if !moved { onPress?(false);onTap?(tapTimestamp) }
+        animate(0);onPress?(false);if !moved {onTap?(tapTimestamp)}
         if let p=window?.frame.origin { PetPreferences.shared.set(p.x,forKey:"petX");PetPreferences.shared.set(p.y,forKey:"petY") }
     }
     override func accessibilityPerformPress()->Bool {
