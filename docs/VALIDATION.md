@@ -18,7 +18,7 @@
 | 安装版 UI 与无模型/无额度启动 | 本机设置/卡片/DSH 回复通过；独立 offline-smoke 进程通过 |
 | 公开目录独立构建与离线测试 | 白名单目录本机独立构建、离线检查通过 |
 | token 历史的三后端统计、未知值、持久化/上限/去重/清空 | 本机离线检查通过；安装版真实DSH连接测试1条137 token已保存并显示 |
-| GitHub Actions | 工作流已提供，尚未上传运行 |
+| GitHub Actions | 2026-10-07首次完整通过：双架构构建、离线/API模拟、启动正反向、签名与打包；见下方记录 |
 | 第二台 Mac、Intel 真机、macOS 13 真机 | 尚未验证 |
 | 登录项注册、下载 Gatekeeper、生产 API 服务 | 尚未做跨机器验证；需要实际操作确认 |
 
@@ -60,3 +60,8 @@
 
 ## 0.6.2偶发偏移调查
 静态无闲置巡游/定时位置修改；修复applyConfiguration误调用回复弹跳。之前GUI smoke临时实例确实会显示在默认位置，可能造成用户看到短暂“另一只/移位”的干扰；现在在orderFront之前放到所有可见屏幕之外，且屏幕参数回调不把它移回。smoke仅证明AppKit窗口初始化/资源和配置断言，不等同可见桌面视觉验收。正常安装UI需单独检查。用户所述闲置偏移尚未现场复现；可选本机MotionProbe记录相对位移/动画标签，无截图/正文/绝对坐标。
+
+## GitHub干净Runner验证
+2026-10-07，代码提交fc7db04在GitHub托管macOS Runner完整通过。[运行记录](https://github.com/shinyfirerat/DragonPet/actions/runs/37571421138)：universal编译、全离线回归、HTTP模拟、隔离fresh/loaded及两类mutation、lipo/plist/codesign、CI artifact打包均成功。此前两次失败发生在mock端口发布等待，已将本机HTTP mock绑定改为不依赖反向DNS并增加就绪诊断。
+
+仓库当前由维护者设为private，运行记录需相应访问权限。该结果证明干净Runner可构建并完成这些检查，不证明Intel/macOS13真机、生产模型API、登录项或公证。后续仅文档更新不重复运行模型或更改程序行为。
