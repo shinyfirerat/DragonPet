@@ -68,3 +68,5 @@
 
 ## 0.6.3复审收尾
 已补：等待30Hz转正文10Hz并销毁旧timer；拖动释放音效但不触发生成；只在用户缩放时进行当前屏幕边界夹取；ISO小数秒与时区支持；空API接口删Key给专用提示。回归涵盖时区/无效时间、右下角/负坐标显示器/无需调整的位置、timer切换与dismiss、拖动事件闭环。CI以lipo -verify_arch断言两个架构；历史CI记录保留，版本头及旧未执行描述已同步。气泡单测禁用窗口展示，不在桌面闪测试气泡。
+
+0.6.3代码提交cd2fff51的[GitHub CI](https://github.com/shinyfirerat/DragonPet/actions/runs/37597741990)完整success：新增气泡timer/拖动释放/尺寸边界/小数秒/Key指南回归、API模拟、smoke正反向，以及lipo -verify_arch双架构断言均通过。另在本机用thin产物验证该断言确实失败。安装版CUA确认空接口删Key提示；大小100→101→100实际变更并还原。耳听音效及Intel/macOS13真机仍不在此证据范围。本轮未调用真实模型。
